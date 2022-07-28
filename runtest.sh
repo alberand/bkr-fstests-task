@@ -45,7 +45,7 @@ EOF
 
 init_env(){
 	cd $HOME
-	git clone git://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
+	git clone git://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git $HOME/xfstests-dev
 	cd $HOME/xfstests-dev
 	sh -c 'make -j$(nproc)'
 	make install
@@ -56,10 +56,11 @@ init_env(){
 }
 
 init_env
+./check -g auto
 
 rlJournalStart
     rlPhaseStartTest
-        rlRun "./check -g auto" 0 "Run fstests"
+        rlRun "test -d $HOME/xfstests-dev/results" 0 "fstests results are ready"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
